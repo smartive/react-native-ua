@@ -100,6 +100,34 @@ class ReactNativeUA {
         bridge.removeTag(tag);
     }
 
+    static get_tags(callback) {
+        return new Promise((resolve, reject) => {
+                bridge.getTags(tags => {
+                callback && callback(null, tags);
+            resolve(tags);
+            })
+        })
+    }
+
+    static get_device_token(callback) {
+        return new Promise((resolve, reject) => {
+                bridge.getDeviceToken(deviceToken => {
+                callback && callback(null, deviceToken);
+            resolve(deviceToken);
+            })
+        })
+    }
+
+    static get_notification(callback) {
+        return new Promise((resolve, reject) => {
+                bridge.getNotification(notification => {
+                callback && callback(null, notification);
+            resolve(notification);
+            })
+        })
+    }
+
+
     /*
     * @param {Object} time
     * @param {number} time.startHour

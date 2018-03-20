@@ -93,6 +93,10 @@ RCT_EXPORT_METHOD(removeTag:(NSString *)tag) {
     [[UAirship push] updateRegistration];
 }
 
+RCT_EXPORT_METHOD(getTags:(RCTResponseSenderBlock)callbackTags) {
+    callbackTags(@[ [UAirship push].tags ]);
+}
+
 RCT_EXPORT_METHOD(setNamedUserId:(NSString *)nameUserId) {
     [UAirship namedUser].identifier = nameUserId;
 }
@@ -167,6 +171,28 @@ RCT_EXPORT_METHOD(getChannelId:(RCTResponseSenderBlock)callback) {
     NSString *channelID = [UAirship push].channelID;
     callback(@[ channelID ]);
 }
+
+RCT_EXPORT_METHOD(getDeviceToken:(RCTResponseSenderBlock)callbackToken) {
+    NSString *deviceToken = @"";
+    if ([UAirship push].deviceToken) {
+        deviceToken = [UAirship push].deviceToken;
+    }
+    callbackToken(@[ deviceToken ]);
+}
+
+RCT_EXPORT_METHOD(getNotification:(RCTResponseSenderBlock)callbackNotification) {
+    
+    NSDictionary *notification = @[];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    if ([defaults objectForKey:@"push_notification_opened_from_background"]) {
+        notification = [defaults objectForKey:@"push_notification_opened_from_background"];
+        [defaults removeObjectForKey:@"push_notification_opened_from_background"];
+    }
+    
+    callbackNotification(@[ notification ]);
+}
+
 
 @end
 
